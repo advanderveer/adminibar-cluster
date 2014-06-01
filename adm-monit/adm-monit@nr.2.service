@@ -1,0 +1,9 @@
+[Unit]
+Description=Adminibar Monitoring
+
+[Service]
+ExecStart=/usr/bin/docker run --name=%p_%i -P dockerfile/nginx 
+ExecStopPost=/usr/bin/docker rm %p_%i
+
+[X-Fleet]
+X-Conflicts=adm-monit@nr.@.service
