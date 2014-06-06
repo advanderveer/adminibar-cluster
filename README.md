@@ -1,35 +1,16 @@
 adminibar-cluster
 -----------
-Files for launching an adminibar cluster
+Central repository for testing and managing adminibar clusters on
+top of CoreOS. 
 
-Vagrant setup
--------------
-1. install using guide: http://coreos.com/docs/running-coreos/platforms/vagrant/
-2. expose docker api: http://coreos.com/docs/launching-containers/building/customizing-docker/#enable-the-remote-api-on-a-new-socket:
+AWS Setup
+----------
+Expects the awscli to be installed
 
-/etc/systemd/system/docker-tcp.socket:
-```
-[Unit]
-Description=Docker Socket for the API
-
-[Socket]
-ListenStream=4243
-Service=docker.service
-BindIPv6Only=both
-
-[Install]
-WantedBy=sockets.target
-```
-execute
-```
-sudo systemctl enable docker-tcp.socket
-sudo systemctl stop docker
-sudo systemctl start docker-tcp.socket
-sudo systemctl start docker
-```
-
-3. Configure ssh access https://github.com/coreos/fleet/blob/master/Documentation/remote-access.md:
-`vagrant ssh-config | sed -n "s/IdentityFile//gp" | xargs ssh-add`
+1. run `make launch` to launch cloud formation
+2. add one of the ec2 ips to env eg: `export FLEETCTL_TUNNEL=79.125.36.12`
+3. add aws private key to ssh agent: `ssh-add ~/.ssh/id_rsa`
+4. on the cluster make sure to enable all tcp traffic between instances in the security groups
 
 
 Stepshape HQ Setup (hq.stepshape.com:5000)

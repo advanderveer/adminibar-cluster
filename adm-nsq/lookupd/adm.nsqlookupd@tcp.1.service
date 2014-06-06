@@ -1,0 +1,11 @@
+[Unit]
+Description=Adm. NSQ Lookupd - TCP Port
+BindsTo=adm.nsqlookupd@nr.1.service
+
+[Service]
+EnvironmentFile=/etc/environment
+ExecStart=/bin/sh -c "while true; do /usr/bin/etcdctl set /services/nsq/nsqlookupd.1.tcp_port `docker port adm.nsqlookupd_nr.1 4160| awk \'{split($0,a,\":\"); print a[2]}\'` --ttl 60;sleep 45;done"
+ExecStop=/usr/bin/etcdctl rm /services/nsq/nsqlookupd.1.tcp_port
+
+[X-Fleet]
+X-ConditionMachineOf=adm.nsqlookupd@nr.1.service

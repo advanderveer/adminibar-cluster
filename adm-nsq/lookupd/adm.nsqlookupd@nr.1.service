@@ -1,0 +1,9 @@
+[Unit]
+Description=Adm. NSQ Lookupd
+
+[Service]
+ExecStart=/usr/bin/docker run --name=%p_%i -P hq.stepshape.com/adm-nsqlookupd nsqlookupd
+ExecStopPost=/usr/bin/docker rm %p_%i
+
+[X-Fleet]
+X-Conflicts=adm.nsqlookupd@nr.*.service
