@@ -1,5 +1,5 @@
 FROM dockerfile/ubuntu
 EXPOSE 4160 4161
-CMD ["nsqlookupd"]
+ENTRYPOINT ["nsqlookupd"]
 
 ADD nsqlookupd /usr/sbin/nsqlookupd
